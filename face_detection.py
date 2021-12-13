@@ -1,6 +1,3 @@
-# from face_recognition.api import face_landmarks
-# from numpy.lib.type_check import imag
-# import numpy as np
 import cv2
 import os
 import cvlib as cv
@@ -22,7 +19,6 @@ def encodeImg() :
 
         list_encode.append([image_encodings, card_encodings])
 
-        # print("encoded!!!")
 
     except :
         pass
@@ -60,7 +56,6 @@ def main() :
         os.remove("image/card.jpg")
     except:
         pass
-        # print("no file to remove")
 
     finally :
         # loop through frames
@@ -73,7 +68,7 @@ def main() :
             cv2.rectangle(frame,(25, 150), (int(width/2)-25, int(height/2)+75), (0, 255, 0), 2)
 
             saved = detectFace(face, frame)
-            # cv2.imshow("detection", frame)
+
             ret, buffer = cv2.imencode('.jpg', frame)
             f = buffer.tobytes()
             yield (b'--frame\r\n'
@@ -105,8 +100,6 @@ def main() :
                     b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n')
         except :
             pass
-        # except Exception as e :
-        #     print("Error: ",e)
-
+        
         webcam.release()
         cv2.destroyAllWindows()
