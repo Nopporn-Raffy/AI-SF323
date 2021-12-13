@@ -1,6 +1,6 @@
-from face_recognition.api import face_landmarks
-from numpy.lib.type_check import imag
-import numpy as np
+# from face_recognition.api import face_landmarks
+# from numpy.lib.type_check import imag
+# import numpy as np
 import cv2
 import os
 import cvlib as cv
@@ -22,7 +22,7 @@ def encodeImg() :
 
         list_encode.append([image_encodings, card_encodings])
 
-        print("encoded!!!")
+        # print("encoded!!!")
 
     except :
         pass
@@ -59,7 +59,8 @@ def main() :
         os.remove("image/face.jpg")
         os.remove("image/card.jpg")
     except:
-        print("no file to remove")
+        pass
+        # print("no file to remove")
 
     finally :
         # loop through frames
@@ -93,20 +94,19 @@ def main() :
         try:
             face_distances = face_recognition.face_distance([list_encode[0][0]], list_encode[0][1])
             result = face_recognition.compare_faces([list_encode[0][0]], list_encode[0][1])
-            # list_distance.append(face_distances)
-            # list_compare.append(result)
-            # percentage = (1 - face_distances[0])*100
             percentage = (1 - face_distances[0])*100
             percentage = "{:.2f}".format(percentage)
 
             cv2.putText(frame, ("Percent: " + percentage +" Match: "+ str(result[0])),(10,50),cv2.FONT_HERSHEY_SIMPLEX,1,(209, 80, 0, 255),2)
-            # print("Percentage: {percentage}     Math: {result}")
+
             ret, buffer = cv2.imencode('.jpg', frame)
             f = buffer.tobytes()
             yield (b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n')
-        except Exception as e :
-            print("Error: ",e)
+        except :
+            pass
+        # except Exception as e :
+        #     print("Error: ",e)
 
         webcam.release()
         cv2.destroyAllWindows()
